@@ -10,3 +10,15 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasm-bindgen = "0.2.83"
+
+# mint-client = { git = "https://github.com/fedimint/fedimint", rev = "87122dc" }
+# fedimint-api = { git = "https://github.com/fedimint/fedimint", rev = "87122dc" }
+# fedimint-core = { git = "https://github.com/fedimint/fedimint", rev = "87122dc" }
+
+mint-client = { git = "https://github.com/justinmoon/fedimint", branch = "fluttermint-2" }
+fedimint-api = { git = "https://github.com/justinmoon/fedimint", branch = "fluttermint-2" }
+fedimint-core = { git = "https://github.com/justinmoon/fedimint", branch = "fluttermint-2" }
+
+[patch.crates-io]
+bitcoin_hashes = { version = "0.10.0", git = 'https://github.com/fedimint/bitcoin_hashes', branch = 'minimint' }
+secp256k1-zkp = { git = "https://github.com/fedimint/rust-secp256k1-zkp/", branch = "sanket-pr" }
