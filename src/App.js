@@ -1,17 +1,31 @@
 import { useEffect, useState } from "react"
 
-import init, { add } from "webimint";
+import init, { connect } from "webimint";
 
 function App() {
-  const [ans, setAns] = useState(0);
+  const [config, setConfig] = useState(null);
+  const [connectionString, setConnectionString] = useState(null);
+
   useEffect(() => {
-    init().then(() => {
-      setAns(add(1, 1));
+    init().then(async () => {
+      let result
+      try {
+        result = await connect(connectionString);
+      } catch(e) {
+        console.error("error connection", e)
+        setConfig(null);
+        return
+      }
+      const json = JSON.stringify(result, null, 2);
+      setConfig(json);
     })
-  }, [])
+  }, [connectionString])
+
   return (
     <div>
-      <p>1 + 1 = {ans}</p>
+      <input onChange={e => setConnectionString(e.target.value)}></input>
+      <div>Connected? { config ? "true" : "false" }</div>
+      {config && <pre>{config}</pre>}
     </div>
   );
 }
