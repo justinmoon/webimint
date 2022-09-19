@@ -5,6 +5,7 @@ A fedimint client for the web
 # Running
 
 ```
+cargo install wasm-pack
 npm install
 npm run build:wasm
 npm run start
