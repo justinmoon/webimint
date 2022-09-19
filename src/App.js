@@ -1,33 +1,59 @@
 import { useEffect, useState } from "react"
 
-import init, { connect } from "webimint";
+import init, { WasmClient } from "webimint";
 
 function App() {
-  const [config, setConfig] = useState(null);
   const [connectionString, setConnectionString] = useState(null);
+  const [client, setClient] = useState(null);
+  // const [invoice, setInvoice] = useState(null);
+  const [balance, setBalance] = useState(null);
 
   useEffect(() => {
+    // FIXME: can I call init() on pageload?
     init().then(async () => {
-      let result
       try {
-        result = await connect(connectionString);
+        const client = await WasmClient.new(connectionString);
+        setClient(client);
+        console.log("client", client)
       } catch(e) {
         console.error("error connection", e)
-        setConfig(null);
+        // TODO: display error
         return
       }
-      const json = JSON.stringify(result, null, 2);
-      setConfig(json);
     })
   }, [connectionString])
 
+  useEffect(() => {
+    if (client) {
+      console.log("fetching invoice")
+      client.balance().then(balance => {
+        setBalance(balance)
+      }).catch(e => {
+        console.log("invoice error", e)
+      });
+    }
+  }, [client])
+
+  // FIXME: client.invoice() fails ...
+  // const str = '{"members":[[0,"ws://188.166.55.8:5000"]],"max_evil":0}'
+  // init().then(async () => {
+  //     const client = await WasmClient.new(str);
+  //     const invoice = await client.balance();
+  //     console.log(invoice)
+  // })
+
+  if (!client) {
+    return (
+      <div>
+        <input onChange={e => setConnectionString(e.target.value)}></input>
+      </div>
+    )
+  }
+
   return (
-    <div>
-      <input onChange={e => setConnectionString(e.target.value)}></input>
-      <div>Connected? { config ? "true" : "false" }</div>
-      {config && <pre>{config}</pre>}
-    </div>
-  );
+    <div>{balance}</div>
+  )
+
 }
 
 export default App;
