@@ -2,11 +2,34 @@ import { useEffect, useState } from "react"
 
 import init, { WasmClient } from "webimint";
 
+// TODO: hide db on "hidden visibility" (see manmeet's pr)
 function App() {
   const [connectionString, setConnectionString] = useState(null);
   const [client, setClient] = useState(null);
   // const [invoice, setInvoice] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [sendInput, setSendInput] = useState('');
+  const [ecash, setEcash] = useState(null);
+  const [receiveInput, setReceiveInput] = useState('');
+
+  // initialize wasm
+  useEffect(() => {
+      init().then(async () => {
+        async function callback() {
+          try {
+            const client = await WasmClient.load();
+            setClient(client);
+            console.log("Successfully loaded client")
+          } catch(e) {
+            console.error("Failed to load client")
+          }
+          setLoaded(true)
+        }
+        // FIXME: without this timeout indexdb can't open
+        setTimeout(callback, 1000)
+      })
+  }, [])
 
   useEffect(() => {
     // FIXME: can I call init() on pageload?
@@ -23,6 +46,18 @@ function App() {
     })
   }, [connectionString])
 
+  // FIXME: this is duplicated with hook below ...
+  function updateBalance() {
+    if (client) {
+      console.log("fetching invoice")
+      client.balance().then(balance => {
+        setBalance(balance)
+      }).catch(e => {
+        console.log("invoice error", e)
+      });
+    }
+  }
+
   useEffect(() => {
     if (client) {
       console.log("fetching invoice")
@@ -34,6 +69,20 @@ function App() {
     }
   }, [client])
 
+  async function handleSend() {
+    const ecash = await client.spend(sendInput)
+    let balance = await client.balance()
+    setBalance(balance)
+    setEcash(ecash);
+  }
+
+  async function handleReceive() {
+    // TODO: error handling
+    await client.reissue(receiveInput)
+    let balance = await client.balance()
+    setBalance(balance)
+  }
+
   // FIXME: client.invoice() fails ...
   // const str = '{"members":[[0,"ws://188.166.55.8:5000"]],"max_evil":0}'
   // init().then(async () => {
@@ -42,16 +91,33 @@ function App() {
   //     console.log(invoice)
   // })
 
+  if (!loaded) {
+    return (
+      <div>loading...</div>
+    )
+  }
+
   if (!client) {
     return (
       <div>
+        <label>Join a federation: </label>
         <input onChange={e => setConnectionString(e.target.value)}></input>
       </div>
     )
   }
 
   return (
-    <div>{balance}</div>
+    <div>
+      <h3>Balance</h3>
+      <div>{balance}</div>
+      <h3>Send</h3>
+      <input onChange={e => setSendInput(e.target.value)} value={sendInput}></input>
+      <button onClick={handleSend}>Send</button>
+      {ecash && <pre>{ecash}</pre>}
+      <h3>Receive</h3>
+      <input onChange={e => setReceiveInput(e.target.value)} value={receiveInput}></input>
+      <button onClick={handleReceive}>Receive</button>
+    </div>
   )
 
 }
