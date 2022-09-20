@@ -18,7 +18,9 @@ function App() {
       init().then(async () => {
         async function callback() {
           try {
-            const client = await WasmClient.load();
+            // const client = await WasmClient.load();
+            const connectionString = '{"members":[[0,"wss://fm-signet.sirion.io:443"]],"max_evil":0}'
+            const client = await WasmClient.new(connectionString);
             setClient(client);
             console.log("Successfully loaded client")
           } catch(e) {
