@@ -100,7 +100,7 @@ function App() {
   if (!client) {
     return (
       <div>
-        <label>Join a federation: </label>
+        <h3>Join a federation: </h3>
         <input onChange={e => setConnectionString(e.target.value)}></input>
       </div>
     )
