@@ -24,9 +24,9 @@ rexie = "0.4.2"
 js-sys = "0.3.59"
 
 # fedimint dependencies
-mint-client = { git = "https://github.com/fedimint/fedimint", rev = "87122dc" }
-fedimint-api = { git = "https://github.com/fedimint/fedimint", rev = "87122dc" }
-fedimint-core = { git = "https://github.com/fedimint/fedimint", rev = "87122dc" }
+mint-client = { git = "https://github.com/fedimint/fedimint", rev = "884206f" }
+fedimint-api = { git = "https://github.com/fedimint/fedimint", rev = "884206f" }
+fedimint-core = { git = "https://github.com/fedimint/fedimint", rev = "884206f" }
 # mint-client = { path = "../../fedimint/client/client-lib/"}
 # fedimint-api = { path = "../../fedimint/fedimint-api/" }
 # fedimint-core = { path = "../../fedimint/fedimint-core/" }

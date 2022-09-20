@@ -12,6 +12,7 @@ use fedimint_api::db::Database;
 use fedimint_core::config::ClientConfig;
 use mint_client::api::{WsFederationApi, WsFederationConnect};
 use mint_client::{UserClient, UserClientConfig};
+use mint_client::query::CurrentConsensus;
 
 use js_sys::Promise;
 use wasm_bindgen::prelude::*;
@@ -73,7 +74,7 @@ impl Client {
     pub async fn new(connection_string: &str) -> anyhow::Result<Self> {
         let connect_cfg: WsFederationConnect = serde_json::from_str(connection_string)?;
         let api = WsFederationApi::new(connect_cfg.max_evil, connect_cfg.members);
-        let cfg: ClientConfig = api.request("/config", ()).await?;
+        let cfg: ClientConfig = api.request("/config", (), CurrentConsensus::new(connect_cfg.max_evil)).await?;
         // let db = Box::new(MemDatabase::new());
         let db = Box::new(WasmDb::new().await) as Box<dyn Database>;
         db.insert_entry(&ConfigKey, &serde_json::to_string(&cfg)?)
@@ -161,9 +162,11 @@ impl WasmClient {
         let client = self.client.clone();
         future_to_promise(async move {
             let amount = Amount::from_sat(amount as u64);
+            let rng = rand::rngs::OsRng::new().unwrap();
             let coins = client
                 .user_client
-                .select_and_spend_coins(amount)
+                .spend_ecash(amount, rng)
+                .await
                 .expect("spending failed");
             tracing::info!("coins {:?}", coins);
             client.user_client.fetch_all_coins().await;

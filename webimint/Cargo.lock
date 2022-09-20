@@ -347,7 +347,7 @@ checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 [[package]]
 name = "fedimint-api"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "anyhow",
  "async-lock",
@@ -377,7 +377,7 @@ dependencies = [
 [[package]]
 name = "fedimint-core"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "async-trait",
  "bincode",
@@ -406,7 +406,7 @@ dependencies = [
 [[package]]
 name = "fedimint-derive"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "heck",
  "proc-macro2",
@@ -417,7 +417,7 @@ dependencies = [
 [[package]]
 name = "fedimint-ln"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "async-trait",
  "bincode",
@@ -439,7 +439,7 @@ dependencies = [
 [[package]]
 name = "fedimint-mint"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "async-trait",
  "bincode",
@@ -459,7 +459,7 @@ dependencies = [
 [[package]]
 name = "fedimint-wallet"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1146,7 +1146,7 @@ dependencies = [
 [[package]]
 name = "mint-client"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1173,6 +1173,7 @@ dependencies = [
  "serde_json",
  "tbs",
  "thiserror",
+ "threshold_crypto",
  "tracing",
  "url",
 ]
@@ -2004,7 +2005,7 @@ checksum = "55937e1799185b12863d447f42597ed69d9928686b8d88a1df17376a097d8369"
 [[package]]
 name = "tbs"
 version = "0.1.0"
-source = "git+https://github.com/fedimint/fedimint?rev=87122dc#87122dc626b2a200a029fc740d6601f3f10e203a"
+source = "git+https://github.com/fedimint/fedimint?rev=884206f#884206fb9d43542559c28c6ee3d143a6a50d9fd8"
 dependencies = [
  "bls12_381",
  "ff 0.11.1",
@@ -2273,9 +2274,9 @@ dependencies = [
 
 [[package]]
 name = "validator"
-version = "0.13.0"
+version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "be110dc66fa015b8b1d2c4eae40c495a27fae55f82b9cae3efb8178241ed20eb"
+checksum = "32ad5bf234c7d3ad1042e5252b7eddb2c4669ee23f32c7dd0e9b7705f07ef591"
 dependencies = [
  "idna 0.2.3",
  "lazy_static",
@@ -2285,14 +2286,13 @@ dependencies = [
  "serde_json",
  "url",
  "validator_derive",
- "validator_types",
 ]
 
 [[package]]
 name = "validator_derive"
-version = "0.13.0"
+version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68f14fe757e2894ce4271991901567be07fbc3eac6b24246122214e1d5a16554"
+checksum = "bc44ca3088bb3ba384d9aecf40c6a23a676ce23e09bdaca2073d99c207f864af"
 dependencies = [
  "if_chain",
  "lazy_static",
@@ -2306,9 +2306,13 @@ dependencies = [
 
 [[package]]
 name = "validator_types"
-version = "0.12.0"
+version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad9680608df133af2c1ddd5eaf1ddce91d60d61b6bc51494ef326458365a470a"
+checksum = "111abfe30072511849c5910134e8baf8dc05de4c0e5903d681cbd5c9c4d611e3"
+dependencies = [
+ "proc-macro2",
+ "syn",
+]
 
 [[package]]
 name = "version_check"
