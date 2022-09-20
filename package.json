@@ -15,6 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "vercel": "bash vercel.sh",
     "test": "react-scripts test",
     "build:wasm": "cd webimint && wasm-pack build --target web --out-dir pkg",
     "eject": "react-scripts eject"
