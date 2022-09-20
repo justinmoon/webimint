@@ -5,10 +5,15 @@ A fedimint client for the web
 # Running
 
 ```
-cargo install wasm-pack
 npm install
-npm run build:wasm
 npm run start
+```
+
+# Rebuiding WASM after changing Rust code
+
+```
+cargo install wasm-pack
+npm run build:wasm
 ```
 
 # Contributing
