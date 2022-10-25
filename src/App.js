@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import init, { WasmClient } from "webimint";
 
 // TODO: hide db on "hidden visibility" (see manmeet's pr)
@@ -92,35 +92,44 @@ function App() {
   //     const invoice = await client.balance();
   //     console.log(invoice)
   // })
-
-  if (!loaded) {
-    return (
-      <div>loading...</div>
-    )
-  }
-
-  if (!client) {
-    return (
-      <div>
-        <h3>Join a federation: </h3>
-        <input onChange={e => setConnectionString(e.target.value)}></input>
-      </div>
-    )
-  }
-
+  
   return (
-    <div>
-      <h3>Balance</h3>
-      <div>{balance}</div>
-      <h3>Send</h3>
-      <input onChange={e => setSendInput(e.target.value)} value={sendInput}></input>
-      <button onClick={handleSend}>Send</button>
-      {ecash && <pre>{ecash}</pre>}
-      <h3>Receive</h3>
-      <input onChange={e => setReceiveInput(e.target.value)} value={receiveInput}></input>
-      <button onClick={handleReceive}>Receive</button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   )
+  
+  
+  // if (!loaded) {
+  //   return (
+  //     <div>loading...</div>
+  //   )
+  // }
+  //
+  // if (!client) {
+  //   return (
+  //     <div>
+  //       <h3>Join a federation: </h3>
+  //       <input onChange={e => setConnectionString(e.target.value)}></input>
+  //     </div>
+  //   )
+  // }
+  //
+  // return (
+  //   <div>
+  //     <h3>Balance</h3>
+  //     <div>{balance}</div>
+  //     <h3>Send</h3>
+  //     <input onChange={e => setSendInput(e.target.value)} value={sendInput}></input>
+  //     <button onClick={handleSend}>Send</button>
+  //     {ecash && <pre>{ecash}</pre>}
+  //     <h3>Receive</h3>
+  //     <input onChange={e => setReceiveInput(e.target.value)} value={receiveInput}></input>
+  //     <button onClick={handleReceive}>Receive</button>
+  //   </div>
+  // )
 
 }
 
