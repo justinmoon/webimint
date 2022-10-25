@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import init, { WasmClient } from "webimint";
 import {Home} from './views/Home'
@@ -95,13 +95,59 @@ function App() {
   //     const invoice = await client.balance();
   //     console.log(invoice)
   // })
+
+  const [darkMode, setDarkMode] = useState(false)
+
+  React.useEffect(()=>{
+    determineDarkMode()
+  }, [])
+
+  React.useEffect(()=>{
+    if(darkMode) {
+      document.documentElement.classList.add('dark')
+    }
+    else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
+
+  const toggleDarkMode = ()=>{
+    if(darkMode) {
+      setDarkMode(false)
+      localStorage.setItem('darkMode', 'false')
+    }
+    else {
+      setDarkMode(true)
+      localStorage.setItem('darkMode', 'true')
+    }
+  }
+
+  const determineDarkMode = ()=>{
+    // First check if user has previously manually defined a preference
+    if(localStorage.darkMode) {
+      console.log('darkMode exists in local storage')
+      if(localStorage.darkMode === 'true') setDarkMode(true)
+      else if(localStorage.darkMode === 'false') setDarkMode(false)
+    }
+    // Otherwise, use the user's OS preference
+    else {
+      let darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+      setDarkMode(darkMode)
+    }
+  }
   
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+      <button onClick={toggleDarkMode} className="fixed top-8 left-8 bg-black text-white dark:bg-white dark:text-black p-2">
+        {darkMode ? 'Light' : 'Dark'}
+      </button>
+    </div>
+    
   )
   
   

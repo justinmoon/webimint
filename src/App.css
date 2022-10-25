@@ -8,9 +8,14 @@ body,html, #root {
 }
 
 body {
-    background: url('../public/grid-pixel.png') center center repeat, linear-gradient(180deg, #C1A2D0 0%, #FBF3FF 100%), #D3C9D7;
+    background: url('../public/grid-pixel.png') center center repeat, linear-gradient(180deg, #C1A2D0 0%, #FBF3FF 100%), #C1A2D0;
+    @apply text-black dark:text-white;
+}
+
+.dark body {
+    background: url('../public/grid-pixel-white.png') center center repeat, linear-gradient(180deg, #170022 0%, #3C0059 100%), #170022;
 }
 
 a {
-    @apply underline text-purple;
+    @apply underline text-purple-light dark:text-lime;
 }

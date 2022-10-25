@@ -10,12 +10,15 @@ module.exports = {
     },
     extend: {
       colors: {
-        'purple': '#3C0059'
+        'purple-light': '#8C1FBF',
+        'lime': '#E8FFF2'
       },
       dropShadow: {
-        'hard': '12px 12px 0 rgba(0,0,0,1.0)'
-      }
+        'hard': '12px 12px 0 rgba(0,0,0,1.0)',
+        'hard-light': '12px 12px 0 rgba(255,255,255,1.0)'
+      },
     },
   },
   plugins: [],
+  darkMode: 'class'
 }
