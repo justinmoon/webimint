@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&family=Source+Sans+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+body,html, #root {
+    @apply w-full h-full;
+}
+
+body {
+    background: url('../public/grid-pixel.png') center center repeat, linear-gradient(180deg, #C1A2D0 0%, #FBF3FF 100%), #D3C9D7;
+}
+
+a {
+    @apply underline text-purple;
+}

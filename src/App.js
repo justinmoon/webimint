@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import init, { WasmClient } from "webimint";
+import {Home} from './views/Home'
+import "./App.css"
+
 
 // TODO: hide db on "hidden visibility" (see manmeet's pr)
 function App() {
