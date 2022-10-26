@@ -1,8 +1,10 @@
 use fedimint_api::{
-    db::{batch::DbBatch, mem_impl::MemDatabase, Database, DatabaseKeyPrefixConst, PrefixIter},
+    db::{mem_impl::MemDatabase, IDatabase, IDatabaseTransaction, DatabaseTransaction, DatabaseKeyPrefixConst, PrefixIter, mem_impl::MemTransaction},
     encoding::{Decodable, Encodable},
 };
 
+use anyhow::Result;
+use async_trait::async_trait;
 use js_sys::{Promise, Uint8Array};
 use rexie::Rexie;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
@@ -25,31 +27,71 @@ pub struct WasmDb {
     mem_db: MemDatabase,
 }
 
-impl Database for WasmDb {
-    fn raw_insert_entry(&self, key: &[u8], value: Vec<u8>) -> anyhow::Result<Option<Vec<u8>>> {
-        let result = self.mem_db.raw_insert_entry(key, value);
-        spawn_local(self.clone().save_inner());
-        result
+impl IDatabase for WasmDb {
+    fn begin_transaction(&self) -> DatabaseTransaction {
+        WasmDbTransaction {
+            mem_tx: self.mem_db.begin_transaction(),
+        }.into()
+    }
+}
+
+pub struct WasmDbTransaction<'a> {
+    mem_tx: DatabaseTransaction<'a>,
+}
+
+#[async_trait(?Send)]
+impl<'a> IDatabaseTransaction<'a> for WasmDbTransaction<'a> {
+    fn raw_insert_bytes(&mut self, key: &[u8], value: Vec<u8>) -> Result<Option<Vec<u8>>> {
+        self.mem_tx.raw_insert_bytes(key, value)
     }
 
-    fn raw_get_value(&self, key: &[u8]) -> anyhow::Result<Option<Vec<u8>>> {
-        self.mem_db.raw_get_value(key)
+    fn raw_get_bytes(&self, key: &[u8]) -> Result<Option<Vec<u8>>> {
+        self.mem_tx.raw_get_bytes(key)
     }
 
-    fn raw_remove_entry(&self, key: &[u8]) -> anyhow::Result<Option<Vec<u8>>> {
-        let result = self.mem_db.raw_remove_entry(key);
-        spawn_local(self.clone().save_inner());
-        result
+    fn raw_remove_entry(&mut self, key: &[u8]) -> Result<Option<Vec<u8>>> {
+        self.mem_tx.raw_remove_entry(key)
     }
 
     fn raw_find_by_prefix(&self, key_prefix: &[u8]) -> PrefixIter<'_> {
-        self.mem_db.raw_find_by_prefix(key_prefix)
+        self.mem_tx.raw_find_by_prefix(key_prefix)
     }
 
-    fn raw_apply_batch(&self, batch: DbBatch) -> anyhow::Result<()> {
-        let result = self.mem_db.raw_apply_batch(batch);
-        spawn_local(self.clone().save_inner());
-        result
+    async fn commit_tx(self: Box<Self>) -> Result<()> {
+        tracing::info!("saving db");
+        let db = Rexie::builder(&DB_NAME)
+            .add_object_store(rexie::ObjectStore::new(STORE_NAME))
+            .build()
+            .await
+            .expect("db error");
+        let t = db
+            .transaction(&[STORE_NAME], rexie::TransactionMode::ReadWrite)
+            .expect("db error");
+
+        let store = t.store(STORE_NAME).expect("db error");
+        store.clear().await.expect("db error");
+
+        for kv in self.mem_tx.raw_find_by_prefix(&[]) {
+            let (k, v) = kv.expect("db error");
+            // NOTE: we can't avoid copying here
+            let js_key = Uint8Array::from(&k[..]);
+            let js_val = Uint8Array::from(&v[..]);
+            store
+                // value-key order is correct here
+                .add(js_val.as_ref(), Some(js_key.as_ref()))
+                .await
+                .expect("db error");
+        }
+        t.commit().await.expect("db error");
+        Ok(())
+    }
+
+    fn rollback_tx_to_savepoint(&mut self) {
+        self.mem_tx.rollback_tx_to_savepoint()
+    }
+
+    fn set_tx_savepoint(&mut self) {
+        self.mem_tx.set_tx_savepoint()
     }
 }
 
@@ -57,7 +99,7 @@ const DB_NAME: &str = "webimint";
 const STORE_NAME: &str = "main";
 
 impl WasmDb {
-    pub async fn new() -> Self {
+    pub async fn new() -> WasmDb {
         tracing::info!("top");
         let db = Rexie::builder(&DB_NAME)
             .add_object_store(rexie::ObjectStore::new(STORE_NAME))
@@ -72,6 +114,7 @@ impl WasmDb {
 
         tracing::info!("memdb");
         let db = MemDatabase::new();
+        let mut dbtx = db.begin_transaction();
         for (k, v) in store
             .get_all(None, None, None, None)
             .await
@@ -83,90 +126,12 @@ impl WasmDb {
                 .expect("value must be uint8array")
                 .to_vec();
 
-            db.raw_insert_entry(&k, v).expect("db error");
+            dbtx.raw_insert_bytes(&k, v).expect("db error");
         }
+
+        dbtx.commit_tx().await.expect("DB Error");
         t.commit().await.expect("db error");
         tracing::info!("commig");
-        Self { mem_db: db }
-    }
-}
-
-#[wasm_bindgen]
-impl WasmDb {
-    // /// Load the database from indexed db.
-    // #[wasm_bindgen]
-    // pub async fn load() -> Self {
-    //     let db = Rexie::builder(&DB_NAME)
-    //         .add_object_store(rexie::ObjectStore::new(STORE_NAME))
-    //         .build()
-    //         .await
-    //         .expect("db error");
-    //     let t = db
-    //         .transaction(&[STORE_NAME], rexie::TransactionMode::ReadOnly)
-    //         .expect("db error");
-
-    //     let store = t.store(STORE_NAME).expect("db error");
-
-    //     let db = MemDatabase::new();
-    //     for (k, v) in store
-    //         .get_all(None, None, None, None)
-    //         .await
-    //         .expect("db error")
-    //     {
-    //         // key is an `ArrayBuffer`
-    //         let k = Uint8Array::new(&k).to_vec();
-    //         let v = Uint8Array::try_from(v)
-    //             .expect("value must be uint8array")
-    //             .to_vec();
-
-    //         db.raw_insert_entry(&k, v).expect("db error");
-    //     }
-    //     t.commit().await.expect("db error");
-    //     Self { mem_db: db }
-    // }
-
-    #[wasm_bindgen]
-    pub fn clone(&self) -> Self {
-        Self {
-            mem_db: self.mem_db.clone(),
-        }
-    }
-
-    async fn save_inner(self) {
-        tracing::info!("saving db");
-        let db = Rexie::builder(&DB_NAME)
-            .add_object_store(rexie::ObjectStore::new(STORE_NAME))
-            .build()
-            .await
-            .expect("db error");
-        let t = db
-            .transaction(&[STORE_NAME], rexie::TransactionMode::ReadWrite)
-            .expect("db error");
-
-        let store = t.store(STORE_NAME).expect("db error");
-        store.clear().await.expect("db error");
-
-        for kv in self.mem_db.raw_find_by_prefix(&[]) {
-            let (k, v) = kv.expect("db error");
-            // NOTE: we can't avoid copying here
-            let js_key = Uint8Array::from(&k[..]);
-            let js_val = Uint8Array::from(&v[..]);
-            store
-                // value-key order is correct here
-                .add(js_val.as_ref(), Some(js_key.as_ref()))
-                .await
-                .expect("db error");
-        }
-        t.commit().await.expect("db error");
-    }
-
-    /// Save the database into indexed db.
-    #[wasm_bindgen]
-    pub fn save(&self) -> Promise {
-        let this = self.clone();
-        future_to_promise(async move {
-            this.save_inner().await;
-            Ok(JsValue::UNDEFINED)
-        })
+        WasmDb { mem_db: db }
     }
 }
