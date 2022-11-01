@@ -25,7 +25,7 @@ export const Home = () => {
           though you can also connect to another instance if you prefer.
         </p>
         
-        <Button text="Begin" style="filled" icon={<ArrowRightIcon />} iconOnly={false} grow={false} />
+        <Button text="Begin" style="filled" icon={<ArrowRightIcon />} centered={true} />
       </div>
       
     </div>

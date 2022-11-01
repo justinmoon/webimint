@@ -19,6 +19,8 @@ const Button = (props) => {
   
   // Grow to fill container
   if(props.grow) classes += " w-full"
+  
+  if(props.centered) classes += " mx-auto"
 
   const Icon = () => props.icon && !props.textOnly ? <span className={props.size === 'small' ? 'w-4 h-4' : 'w-6 h-6'}>{props.icon}</span> : ''
   
