@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&family=Source+Sans+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+body,html, #root {
+    @apply w-full min-h-full;
+}
+
+body {
+    background: url('../public/grid-pixel.png') center center repeat, linear-gradient(180deg, #C1A2D0 0%, #FBF3FF 100%), #C1A2D0;
+    @apply text-black dark:text-white;
+}
+
+.dark body {
+    background: url('../public/grid-pixel-white.png') center center repeat, linear-gradient(180deg, #170022 0%, #3C0059 100%), #170022;
+}
+
+a {
+    @apply underline text-purple-light dark:text-lime;
+}
