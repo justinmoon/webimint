@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import init, { WasmClient } from "webimint";
 import {Home} from './views/Home'
 import "./App.css"
+import {SunIcon, MoonIcon} from '@bitcoin-design/bitcoin-icons-react/filled';
 
 
 // TODO: hide db on "hidden visibility" (see manmeet's pr)
@@ -144,7 +145,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <button onClick={toggleDarkMode} className="fixed top-8 left-8 bg-black text-white dark:bg-white dark:text-black p-2">
-        {darkMode ? 'Light' : 'Dark'}
+        {darkMode ? <SunIcon className="w-6 h-6" /> : <MoonIcon className="w-6 h-6" />}
       </button>
     </div>
     
