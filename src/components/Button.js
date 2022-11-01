@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom"
 
 const Button = (props) => {
-  let classes = "font-mono inline-flex items-center justify-center no-underline transition-colors transition-all outline-2 outline outline-white dark:outline-black"
+  let classes = "font-mono inline-flex items-center justify-center no-underline transition-colors transition-all"
   
   // Size
   if(props.size === "small") classes += " p-2 space-x-2 text-base"
