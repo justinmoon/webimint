@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom"
 
 const Button = (props) => {
-  let classes = "font-mono inline-flex items-center justify-center no-underline"
+  let classes = "font-mono inline-flex items-center justify-center no-underline transition-colors transition-all outline-2 outline outline-white dark:outline-black"
   
   // Size
   if(props.size === "small") classes += " p-2 space-x-2 text-base"
@@ -9,8 +9,11 @@ const Button = (props) => {
   else classes += " p-6 space-x-3 text-2xl"
   
   // Style
-  if(props.style === "outline") classes += " border-2 border-purple-dark dark:border-lime"
-  else classes += " bg-purple-dark text-lime dark:bg-lime dark:text-purple-dark"
+  if(props.style === "outline") classes += " border-2 border-purple-dark dark:border-lime bg-white dark:bg-black"
+  else classes += " bg-purple-dark hover:bg-purple-dark-hover dark:hover:bg-lime-hover text-lime dark:bg-lime dark:text-purple-dark"
+  
+  // Hover
+  classes += " hover:drop-shadow-hard-small dark:hover:drop-shadow-hard-small-light hover:translate-x-[-6px] hover:translate-y-[-6px]"
   
   // Icon Position
   if(props.iconPosition === "left") classes += " flex-row-reverse space-x-reverse"
