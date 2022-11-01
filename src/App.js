@@ -144,7 +144,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </BrowserRouter>
-      <button onClick={toggleDarkMode} className="fixed top-8 right-8 bg-black text-white dark:bg-white dark:text-black p-2">
+      <button onClick={toggleDarkMode} className="fixed top-0 left-0 lg:top-8 lg:right-8 lg:left-auto bg-black text-white dark:bg-white dark:text-black p-2">
         {darkMode ? <SunIcon className="w-6 h-6" /> : <MoonIcon className="w-6 h-6" />}
       </button>
     </div>
