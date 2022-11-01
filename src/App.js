@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import init, { WasmClient } from "webimint";
 import {Home} from './views/Home'
+import {Wallet} from './views/Wallet'
 import "./App.css"
 import {SunIcon, MoonIcon} from '@bitcoin-design/bitcoin-icons-react/filled';
 
@@ -142,6 +143,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/wallet" element={<Wallet />} />
         </Routes>
       </BrowserRouter>
       <button onClick={toggleDarkMode} className="fixed top-0 left-0 lg:top-8 lg:right-8 lg:left-auto bg-black text-white dark:bg-white dark:text-black p-2">
