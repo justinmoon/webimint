@@ -9,7 +9,7 @@ export const Home = () => {
   let navigate = useNavigate();
 
   return(
-    <div className="text-2xl font-sans p-8 h-full w-full flex justify-center items-center">
+    <div className="text-2xl font-sans p-12 h-full w-full flex justify-center items-center">
       <div className="border-2 border-black dark:border-white p-8 space-y-4 max-w-4xl mx-auto bg-white dark:bg-black drop-shadow-hard dark:drop-shadow-hard-light">
         <WebimintLogo className="w-full max-w-[360px] mx-auto" />
         

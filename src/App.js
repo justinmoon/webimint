@@ -4,7 +4,8 @@ import init, { WasmClient } from "webimint";
 import {Home} from './views/Home'
 import {Wallet} from './views/Wallet'
 import "./App.css"
-import {SunIcon, MoonIcon} from '@bitcoin-design/bitcoin-icons-react/filled';
+import {SunIcon, MoonIcon, GearIcon, MenuIcon} from '@bitcoin-design/bitcoin-icons-react/filled'
+import Button from './components/Button'
 
 
 // TODO: hide db on "hidden visibility" (see manmeet's pr)
@@ -138,6 +139,10 @@ function App() {
     }
   }
   
+  const toggleMenu = ()=>{
+    console.log('Toggle settings menu')
+  }
+  
   return (
     <div>
       <BrowserRouter>
@@ -146,9 +151,26 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />
         </Routes>
       </BrowserRouter>
-      <button onClick={toggleDarkMode} className="fixed top-0 left-0 lg:top-8 lg:right-8 lg:left-auto bg-black text-white dark:bg-white dark:text-black p-2">
-        {darkMode ? <SunIcon className="w-6 h-6" /> : <MoonIcon className="w-6 h-6" />}
-      </button>
+      
+      <div className="fixed top-0 left-0 lg:top-8 lg:right-0 lg:left-auto space-y-4">
+        <Button
+          text={darkMode ? 'Light Mode' : 'Dark Mode'}
+          iconOnly
+          size={'small'}
+          icon={darkMode ? <SunIcon /> : <MoonIcon />}
+          onClick={toggleDarkMode}
+          style={'outline'}
+        />
+        
+        <Button
+          text={'Menu'}
+          iconOnly
+          size={'small'}
+          icon={<MenuIcon />}
+          onClick={toggleMenu}
+          style={'outline'}
+        />
+      </div>
     </div>
     
   )
