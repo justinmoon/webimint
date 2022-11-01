@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&family=Source+Sans+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 body,html, #root {
-    @apply w-full h-full;
+    @apply w-full min-h-full;
 }
 
 body {
