@@ -14,18 +14,18 @@ const Button = (props) => {
   if(props.iconPosition === "left") classes += " flex-row-reverse space-x-reverse"
   else classes += " flex-row"
   
-  // Icon Only
-  if(props.icon && props.iconOnly) classes += " space-x-0"
+  // Icon Only or Text Only
+  if(props.icon && props.iconOnly || props.textOnly) classes += " space-x-0"
   
   // Grow to fill container
   if(props.grow) classes += " w-full"
 
-  const Icon = () => <span className={props.size === 'small' ? 'w-4 h-4' : 'w-6 h-6'}>{props.icon}</span>
+  const Icon = () => props.icon && !props.textOnly ? <span className={props.size === 'small' ? 'w-4 h-4' : 'w-6 h-6'}>{props.icon}</span> : ''
   
   return(
     <>
       <button className={classes}>
-        <span className={props.icon && props.iconOnly ? 'absolute left-[-999rem]' : ''}>{props.text}</span>
+        <span className={props.icon && props.iconOnly && !props.textOnly ? 'absolute left-[-999rem]' : ''}>{props.text}</span>
         <Icon />
       </button>
     </>
