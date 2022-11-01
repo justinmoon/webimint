@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import FedimintLogo from '../components/FedimintLogo';
 import WebimintLogo from '../components/WebimintLogo';
+import Button from '../components/Button';
+import {ArrowRightIcon} from '@bitcoin-design/bitcoin-icons-react/filled';
 
 export const Home = () => {
   let navigate = useNavigate();
@@ -22,6 +24,8 @@ export const Home = () => {
           By default, this is hooked up to the <a href="https://faucet.sirion.io/">public signet Fedimint instance</a>,
           though you can also connect to another instance if you prefer.
         </p>
+        
+        <Button text="Begin" style="filled" icon={<ArrowRightIcon />} iconOnly={false} grow={false} />
       </div>
       
     </div>

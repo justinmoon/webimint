@@ -11,7 +11,8 @@ module.exports = {
     extend: {
       colors: {
         'purple-light': '#8C1FBF',
-        'lime': '#E8FFF2'
+        'lime': '#E8FFF2',
+        'purple-dark': '#170022'
       },
       dropShadow: {
         'hard': '12px 12px 0 rgba(0,0,0,1.0)',
