@@ -45,9 +45,9 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly rustsecp256k1zkp_v0_7_0_musig_partial_sign: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly rustsecp256k1zkp_v0_7_0_musig_nonce_process: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly __wbg_wasmdb_free: (a: number) => void;
+  readonly rustsecp256k1zkp_v0_7_0_musig_partial_sign: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly start: () => void;
   readonly __wbg_wasmclient_free: (a: number) => void;
   readonly wasmclient_load: () => number;

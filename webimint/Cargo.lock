@@ -13,17 +13,18 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.65"
+version = "1.0.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "98161a4e3e2184da77bb14f02184cdd111e83bbbcc9979dfee3c44b9a85f5602"
+checksum = "216261ddc8289130e551ddcd5ce8a064710c0d064a4d2895c67151c92b5443f6"
 
 [[package]]
 name = "async-lock"
-version = "2.5.0"
+version = "2.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e97a171d191782fba31bb902b14ad94e24a68145032b7eedf871ab0bc0d077b6"
+checksum = "c8101efe8695a6c17e02911402145357e718ac92d3ff88ae8419e84b1707b685"
 dependencies = [
  "event-listener",
+ "futures-lite",
 ]
 
 [[package]]
@@ -86,9 +87,9 @@ dependencies = [
 
 [[package]]
 name = "bitcoin"
-version = "0.29.1"
+version = "0.29.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9cb36de3b18ad25f396f9168302e36fb7e1e8923298ab3127da252d288d5af9d"
+checksum = "0694ea59225b0c5f3cb405ff3f670e4828358ed26aec49dc352f730f0cb1a8a3"
 dependencies = [
  "bech32",
  "bitcoin_hashes",
@@ -355,9 +356,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 
 [[package]]
+name = "fastrand"
+version = "1.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a7a407cfaa3385c4ae6b23e84623d48c2798d06e3e6a1878f7f59f17b3f86499"
+dependencies = [
+ "instant",
+]
+
+[[package]]
 name = "fedimint-api"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "anyhow",
  "async-lock",
@@ -386,7 +396,7 @@ dependencies = [
 [[package]]
 name = "fedimint-bitcoind"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -401,7 +411,7 @@ dependencies = [
 [[package]]
 name = "fedimint-core"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "async-trait",
  "bincode",
@@ -429,7 +439,7 @@ dependencies = [
 [[package]]
 name = "fedimint-derive"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "heck",
  "proc-macro2",
@@ -440,8 +450,9 @@ dependencies = [
 [[package]]
 name = "fedimint-ln"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
+ "anyhow",
  "async-trait",
  "bincode",
  "bitcoin_hashes",
@@ -463,7 +474,7 @@ dependencies = [
 [[package]]
 name = "fedimint-mint"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -485,7 +496,7 @@ dependencies = [
 [[package]]
 name = "fedimint-wallet"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -504,9 +515,9 @@ dependencies = [
 
 [[package]]
 name = "ff"
-version = "0.12.0"
+version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df689201f395c6b90dfe87127685f8dbfc083a5e779e613575d8bd7314300c3e"
+checksum = "d013fc25338cc558c5c2cfbad646908fb23591e2404481826742b651c9af7160"
 dependencies = [
  "bitvec",
  "rand_core",
@@ -583,6 +594,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bbf4d2a7a308fd4578637c0b17c7e1c7ba127b8f6ba00b29f717e9655d85eb68"
 
 [[package]]
+name = "futures-lite"
+version = "1.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7694489acd39452c77daa48516b894c153f192c3578d5a839b62c58099fcbf48"
+dependencies = [
+ "fastrand",
+ "futures-core",
+ "futures-io",
+ "memchr",
+ "parking",
+ "pin-project-lite",
+ "waker-fn",
+]
+
+[[package]]
 name = "futures-macro"
 version = "0.3.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -645,9 +671,9 @@ dependencies = [
 
 [[package]]
 name = "getrandom"
-version = "0.2.7"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4eb1a864a501629691edf6c15a593b7a51eebaa1e8468e9ddc623de7c9b58ec6"
+checksum = "c05aeb6a22b8f62540c194aac980f2115af067bfe15a0734d7277a768d396b31"
 dependencies = [
  "cfg-if",
  "js-sys",
@@ -784,6 +810,14 @@ name = "hex_fmt"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b07f60793ff0a4d9cef0f18e63b5357e06209987153a64648c972c1e5aff336f"
+
+[[package]]
+name = "hkdf"
+version = "0.1.0"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
+dependencies = [
+ "bitcoin_hashes",
+]
 
 [[package]]
 name = "http"
@@ -1056,24 +1090,25 @@ checksum = "292a948cd991e376cf75541fe5b97a1081d713c618b4f1b9500f8844e49eb565"
 
 [[package]]
 name = "lightning"
-version = "0.0.111"
+version = "0.0.112"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d86c207bcbca1c9dfb3668b81e2ad35b81370e583f2f8c5ee642a9f07925b05e"
+checksum = "5deb857f23c88083ac09bc31fe4eadccf4b2779fb3c973862691258bff38b0e2"
 dependencies = [
  "bitcoin",
 ]
 
 [[package]]
 name = "lightning-invoice"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "023d5bd83191e13281b877526efb503a96aaae7ef97c7ba6359ba73f9c1bee11"
+checksum = "0fc6ec960257cddce1b85d5ce258821a6138dcd0ae9fd9661b2c3061df588289"
 dependencies = [
  "bech32",
  "bitcoin_hashes",
  "lightning",
  "num-traits",
  "secp256k1",
+ "serde",
 ]
 
 [[package]]
@@ -1134,7 +1169,7 @@ dependencies = [
 [[package]]
 name = "mint-client"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1146,6 +1181,7 @@ dependencies = [
  "fedimint-core",
  "futures",
  "hex",
+ "hkdf",
  "js-sys",
  "jsonrpsee-core",
  "jsonrpsee-types",
@@ -1223,6 +1259,12 @@ checksum = "135590d8bdba2b31346f9cd1fb2a912329f5135e832a4f422942eb6ead8b6b3b"
 dependencies = [
  "group",
 ]
+
+[[package]]
+name = "parking"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "427c3892f9e783d91cc128285287e70a59e206ca452770ece88a76f7a3eddd72"
 
 [[package]]
 name = "parking_lot"
@@ -1735,6 +1777,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "signal-hook-registry"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e51e73328dc4ac0c7ccbda3a494dfa03df1de2f46018127f60c693f2648455b0"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "slab"
 version = "0.4.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1832,7 +1883,7 @@ checksum = "55937e1799185b12863d447f42597ed69d9928686b8d88a1df17376a097d8369"
 [[package]]
 name = "tbs"
 version = "0.1.0"
-source = "git+https://github.com/m1sterc001guy/fedimint?rev=8219fb811365#8219fb811365ec0998104a42c41bc539bf2b1c39"
+source = "git+https://github.com/m1sterc001guy/fedimint?rev=e36c176#e36c176b3b1565aedf866f11d27c688aa8eee281"
 dependencies = [
  "bls12_381",
  "ff",
@@ -1940,6 +1991,7 @@ dependencies = [
  "mio",
  "num_cpus",
  "pin-project-lite",
+ "signal-hook-registry",
  "socket2",
  "tokio-macros",
  "winapi",
@@ -2156,6 +2208,12 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
+
+[[package]]
+name = "waker-fn"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d5b2c62b4012a3e1eca5a7e077d13b3bf498c4073e33ccd58626607748ceeca"
 
 [[package]]
 name = "want"

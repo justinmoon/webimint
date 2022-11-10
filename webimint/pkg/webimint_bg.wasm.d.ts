@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export function rustsecp256k1zkp_v0_7_0_musig_partial_sign(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function rustsecp256k1zkp_v0_7_0_musig_nonce_process(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function __wbg_wasmdb_free(a: number): void;
+export function rustsecp256k1zkp_v0_7_0_musig_partial_sign(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function start(): void;
 export function __wbg_wasmclient_free(a: number): void;
 export function wasmclient_load(): number;
