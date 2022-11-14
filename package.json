@@ -9,15 +9,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "webimint": "file:webimint/pkg"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "vercel": "bash vercel.sh",
     "test": "react-scripts test",
-    "build:wasm": "cd webimint && wasm-pack build --target web --out-dir pkg",
+    "build:wasm": "cd webimint && wasm-pack build --target web --out-dir ../src/webimint",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
