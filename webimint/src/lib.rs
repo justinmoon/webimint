@@ -2,7 +2,6 @@ mod db;
 
 use db::ConfigKey;
 pub use db::WasmDb;
-use db::WasmDbTransaction;
 use fedimint_api::Amount;
 use fedimint_api::NumPeers;
 use fedimint_api::TieredMulti;
@@ -101,7 +100,6 @@ impl Client {
     async fn invoice(&self) -> anyhow::Result<String> {
         let amount = 1000;
         let description = "description".into();
-        tracing::info!("making rng");
         let mut rng = rand::rngs::OsRng;
 
         let amt = fedimint_api::Amount::from_sat(amount);
@@ -143,7 +141,6 @@ impl WasmClient {
     // pub async fn invoice(&self, amount: u64, description: String) -> anyhow::Result<String> {
     #[wasm_bindgen]
     pub async fn invoice(&self) -> Promise {
-        tracing::info!("WasmClient.invoice()");
         let client = self.client.clone();
         future_to_promise(async move {
             Ok(JsValue::from(
@@ -188,15 +185,10 @@ impl WasmClient {
     // NOTE: we need to use `Promise` instead of `async` support due to lifetimes.
     #[wasm_bindgen]
     pub fn balance(&self) -> Promise {
-        tracing::info!("called balance()");
         let client = self.client.clone();
         future_to_promise(async move {
-            tracing::info!("fetching coins");
             client.user_client.fetch_all_coins().await;
-            tracing::info!("fetched coins");
-            let result = Ok(JsValue::from(client.balance().await as u32));
-            tracing::info!("fetched balance");
-            result
+            Ok(JsValue::from(client.balance().await as u32))
         })
     }
 }
