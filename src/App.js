@@ -101,6 +101,13 @@ function App() {
     <div>
       <h3>Balance</h3>
       <div>{balance}</div>
+      <div>
+        <button onClick={async () => {
+          const balance = await client.balance()
+          setBalance(balance);
+          console.log(balance)
+        }}>Balance</button>
+      </div>
       <h3>Send</h3>
       <input onChange={e => setSendInput(e.target.value)} value={sendInput}></input>
       <button onClick={handleSend}>Send</button>
