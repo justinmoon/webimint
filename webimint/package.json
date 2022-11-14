@@ -1,0 +1,12 @@
+{
+  "name": "webimint",
+  "version": "0.0.1",
+  "files": [
+    "webimint_bg.wasm",
+    "webimint.js",
+    "webimint.d.ts"
+  ],
+  "module": "webimint.js",
+  "types": "webimint.d.ts",
+  "sideEffects": false
+}
