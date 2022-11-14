@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import init, { WasmClient } from "webimint";
+import init, { WasmClient } from "../webimint";
 
 // TODO: hide db on "hidden visibility" (see manmeet's pr)
 function App() {
