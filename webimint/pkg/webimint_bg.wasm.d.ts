@@ -1,9 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export function rustsecp256k1zkp_v0_7_0_musig_nonce_process(a: number, b: number, c: number, d: number, e: number, f: number): number;
-export function __wbg_wasmdb_free(a: number): void;
-export function rustsecp256k1zkp_v0_7_0_musig_partial_sign(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function start(): void;
 export function __wbg_wasmclient_free(a: number): void;
 export function wasmclient_load(): number;
@@ -12,6 +9,9 @@ export function wasmclient_invoice(a: number): number;
 export function wasmclient_reissue(a: number, b: number, c: number): number;
 export function wasmclient_spend(a: number, b: number): number;
 export function wasmclient_balance(a: number): number;
+export function rustsecp256k1zkp_v0_7_0_musig_nonce_process(a: number, b: number, c: number, d: number, e: number, f: number): number;
+export function __wbg_wasmdb_free(a: number): void;
+export function rustsecp256k1zkp_v0_7_0_musig_partial_sign(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function rustsecp256k1zkp_v0_7_0_musig_nonce_agg(a: number, b: number, c: number, d: number): number;
 export function rustsecp256k1zkp_v0_7_0_musig_pubkey_agg(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function rustsecp256k1zkp_v0_7_0_musig_nonce_gen(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number): number;
@@ -117,13 +117,13 @@ export function rustsecp256k1_v0_6_1_default_error_callback_fn(a: number, b: num
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export const __wbindgen_export_2: WebAssembly.Table;
-export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h14a7da4e1c597eac(a: number, b: number, c: number): void;
-export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2987aa29005630ef(a: number, b: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h46dab2b2b2ffbd8c(a: number, b: number, c: number): void;
+export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1f8138e0a8a15f58(a: number, b: number): void;
 export function __wbindgen_add_to_stack_pointer(a: number): number;
-export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hfc92c5de3ecaf47d(a: number, b: number, c: number, d: number): void;
-export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h7e29fb5475983400(a: number, b: number): void;
-export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h11766b87e0a00c49(a: number, b: number, c: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h6cd01994f1a325d1(a: number, b: number, c: number, d: number): void;
+export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c53c13966404876(a: number, b: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__he03cbacc6d21c1fb(a: number, b: number, c: number): void;
 export function __wbindgen_free(a: number, b: number): void;
 export function __wbindgen_exn_store(a: number): void;
-export function wasm_bindgen__convert__closures__invoke2_mut__h1dca1b2cbeef3874(a: number, b: number, c: number, d: number): void;
+export function wasm_bindgen__convert__closures__invoke2_mut__h900022385eb6e976(a: number, b: number, c: number, d: number): void;
 export function __wbindgen_start(): void;

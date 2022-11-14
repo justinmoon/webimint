@@ -13,8 +13,8 @@ use std::sync::Arc;
 use fedimint_api::db::Database;
 use fedimint_core::config::ClientConfig;
 use mint_client::api::{WsFederationApi, WsFederationConnect};
-use mint_client::{UserClient, UserClientConfig};
 use mint_client::query::CurrentConsensus;
+use mint_client::{UserClient, UserClientConfig};
 
 use js_sys::Promise;
 use wasm_bindgen::prelude::*;
@@ -77,13 +77,23 @@ impl Client {
     pub async fn new(connection_string: &str) -> anyhow::Result<Self> {
         let connect_cfg: WsFederationConnect = serde_json::from_str(connection_string)?;
         let api = WsFederationApi::new(connect_cfg.members);
-        let cfg: ClientConfig = api.request("/config", (), CurrentConsensus::new(api.peers().threshold())).await?;
+        let cfg: ClientConfig = api
+            .request(
+                "/config",
+                (),
+                CurrentConsensus::new(api.peers().threshold()),
+            )
+            .await?;
         let db: Database = WasmDb::new().await.into();
         let mut dbtx = db.begin_transaction();
         dbtx.insert_entry(&ConfigKey, &serde_json::to_string(&cfg)?)
             .expect("db error");
         dbtx.commit_tx().await.expect("DB Error");
-        let user_client = UserClient::new(UserClientConfig(cfg), WasmDb::new().await.into(), Default::default());
+        let user_client = UserClient::new(
+            UserClientConfig(cfg),
+            WasmDb::new().await.into(),
+            Default::default(),
+        );
         let client = Self {
             user_client: Arc::new(user_client),
         };
@@ -182,10 +192,15 @@ impl WasmClient {
     // NOTE: we need to use `Promise` instead of `async` support due to lifetimes.
     #[wasm_bindgen]
     pub fn balance(&self) -> Promise {
+        tracing::info!("called balance()");
         let client = self.client.clone();
         future_to_promise(async move {
+            tracing::info!("fetching coins");
             client.user_client.fetch_all_coins().await;
-            Ok(JsValue::from(client.balance().await as u32))
+            tracing::info!("fetched coins");
+            let result = Ok(JsValue::from(client.balance().await as u32));
+            tracing::info!("fetched balance");
+            result
         })
     }
 }

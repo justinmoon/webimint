@@ -1,14 +1,16 @@
 use fedimint_api::{
-    db::{mem_impl::MemDatabase, IDatabase, IDatabaseTransaction, DatabaseTransaction, DatabaseKeyPrefixConst, PrefixIter, mem_impl::MemTransaction},
+    db::{
+        mem_impl::MemDatabase, DatabaseKeyPrefixConst, DatabaseTransaction, IDatabase,
+        IDatabaseTransaction, PrefixIter,
+    },
     encoding::{Decodable, Encodable},
 };
 
 use anyhow::Result;
 use async_trait::async_trait;
-use js_sys::{Promise, Uint8Array};
+use js_sys::Uint8Array;
 use rexie::Rexie;
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
-use wasm_bindgen_futures::{future_to_promise, spawn_local};
+use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug, Clone, Encodable, Decodable)]
 pub struct ConfigKey;
@@ -31,7 +33,8 @@ impl IDatabase for WasmDb {
     fn begin_transaction(&self) -> DatabaseTransaction {
         WasmDbTransaction {
             mem_tx: self.mem_db.begin_transaction(),
-        }.into()
+        }
+        .into()
     }
 }
 
@@ -131,7 +134,7 @@ impl WasmDb {
 
         dbtx.commit_tx().await.expect("DB Error");
         t.commit().await.expect("db error");
-        tracing::info!("commig");
+        tracing::info!("commit");
         WasmDb { mem_db: db }
     }
 }
