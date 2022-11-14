@@ -89,11 +89,7 @@ impl Client {
         dbtx.insert_entry(&ConfigKey, &serde_json::to_string(&cfg)?)
             .expect("db error");
         dbtx.commit_tx().await.expect("DB Error");
-        let user_client = UserClient::new(
-            UserClientConfig(cfg),
-            WasmDb::new().await.into(),
-            Default::default(),
-        );
+        let user_client = UserClient::new(UserClientConfig(cfg), db, Default::default());
         let client = Self {
             user_client: Arc::new(user_client),
         };

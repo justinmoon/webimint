@@ -86,6 +86,7 @@ impl<'a> IDatabaseTransaction<'a> for WasmDbTransaction<'a> {
                 .expect("db error");
         }
         t.commit().await.expect("db error");
+        self.mem_tx.commit_tx().await.expect("db error");
         Ok(())
     }
 
