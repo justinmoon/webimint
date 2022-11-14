@@ -1,8 +1,9 @@
 mod db;
 
 use db::ConfigKey;
-pub use db::WasmDb;
-use db::WasmDbTransaction;
+// pub use db::WasmDb;
+// use db::WasmDbTransaction;
+use fedimint_api::db::mem_impl::MemDatabase;
 use fedimint_api::Amount;
 use fedimint_api::NumPeers;
 use fedimint_api::TieredMulti;
@@ -58,7 +59,8 @@ pub struct Client {
 impl Client {
     pub async fn load() -> anyhow::Result<Self> {
         tracing::info!("instantiating wasmdb");
-        let db: Database = WasmDb::new().await.into();
+        // let db: Database = WasmDb::new().await.into();
+        let db: Database = MemDatabase::new().into();
         tracing::info!("looking up config");
         let cfg_json = db
             .begin_transaction()
@@ -84,14 +86,15 @@ impl Client {
                 CurrentConsensus::new(api.peers().threshold()),
             )
             .await?;
-        let db: Database = WasmDb::new().await.into();
+        // let db: Database = WasmDb::new().await.into();
+        let db: Database = MemDatabase::new().into();
         let mut dbtx = db.begin_transaction();
         dbtx.insert_entry(&ConfigKey, &serde_json::to_string(&cfg)?)
             .expect("db error");
         dbtx.commit_tx().await.expect("DB Error");
         let user_client = UserClient::new(
             UserClientConfig(cfg),
-            WasmDb::new().await.into(),
+            MemDatabase::new().into(),
             Default::default(),
         );
         let client = Self {
@@ -165,7 +168,11 @@ impl WasmClient {
             let coins = parse_coins(&coins);
             let rng = rand::rngs::OsRng;
             // TODO: handle result
-            client.user_client.reissue(coins, rng).await;
+            client
+                .user_client
+                .reissue(coins, rng)
+                .await
+                .expect("couldn't reissue");
             client.user_client.fetch_all_coins().await;
             Ok(JsValue::from("done")) // FIXME
         })
