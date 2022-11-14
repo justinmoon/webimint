@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import init, { WasmClient } from "webimint";
+import init, { WasmClient } from "./webimint";
 
 // TODO: hide db on "hidden visibility" (see manmeet's pr)
 function App() {
@@ -18,9 +18,7 @@ function App() {
       init().then(async () => {
         async function callback() {
           try {
-            // const client = await WasmClient.load();
-            const connectionString = '{"members":[[0,"wss://fm-signet.sirion.io:443"]],"max_evil":0}'
-            const client = await WasmClient.new(connectionString);
+            const client = await WasmClient.load();
             setClient(client);
             console.log("Successfully loaded client")
           } catch(e) {
@@ -34,39 +32,30 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // FIXME: can I call init() on pageload?
-    init().then(async () => {
+    async function handleConnectionString() {
       try {
         const client = await WasmClient.new(connectionString);
         setClient(client);
         console.log("client", client)
-      } catch(e) {
+      } catch (e) {
         console.error("error connection", e)
         // TODO: display error
         return
       }
-    })
-  }, [connectionString])
-
-  // FIXME: this is duplicated with hook below ...
-  function updateBalance() {
-    if (client) {
-      console.log("fetching invoice")
-      client.balance().then(balance => {
-        setBalance(balance)
-      }).catch(e => {
-        console.log("invoice error", e)
-      });
     }
-  }
+    if (connectionString) {
+      handleConnectionString();
+    }
+  }, [connectionString])
 
   useEffect(() => {
     if (client) {
-      console.log("fetching invoice")
+      console.log("fetching balance")
       client.balance().then(balance => {
         setBalance(balance)
+        console.log("set balance", balance)
       }).catch(e => {
-        console.log("invoice error", e)
+        console.log("invoice balance", e)
       });
     }
   }, [client])
